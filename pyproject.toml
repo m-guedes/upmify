@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-upmify = "upmify.cmd:main"
+upmify = "upmify.cmd.cli:main"
 
 [dependency-groups]
 dev = [
