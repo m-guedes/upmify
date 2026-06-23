@@ -6,25 +6,28 @@ build-backend = "setuptools.build_meta"
 name = "upmify"
 version = "0.1.0"
 description = "Convert Unity .unitypackage files into UPM-compatible packages"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 authors = [
     { name = "Miguel Guedes", email = "miguel@softgeist.com" }
 ]
 dependencies = [
 ]
 
-[project.optional-dependencies]
+[project.scripts]
+upmify = "upmify.cmd:main"
+
+[dependency-groups]
 dev = [
+    "ipython",
     "isort",
+    "mypy",
     "pre-commit",
     "pyflakes",
     "pytest",
+    "pytest-cov",
     "pytest-mock",
     "ruff",
 ]
-
-[project.scripts]
-upmify = "upmify.cmd:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -51,15 +54,22 @@ lint.extend-select = [
 ]
 fix = true  # Auto-fix applicable lint issues
 
+[tool.ruff.lint.mccabe]
+max-complexity = 20
+
 [tool.isort]
 known_first_party = ["upmify"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 check_untyped_defs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
 strict_optional = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
 
 [tool.coverage.run]
 branch = true
@@ -71,3 +81,7 @@ skip_covered = true
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-q"]
