@@ -2,7 +2,9 @@
 .venv
 
 *.egg-info
+htmlcov/
 
 # Files
+.coverage
 .env
 .~*
