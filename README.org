@@ -9,7 +9,7 @@ It extracts asset contents, rebuilds the internal folder structure, adds assembl
 
 - Extracts =.unitypackage= tarballs into clean folder structures
 - Auto-generates =package.json= and UPM structure, integrating any declared dependencies in the package's manifest.json file
-- Creates =.asmdef= files to isolate assets in Unity
+- Creates an =.asmdef= file to isolate assets in Unity
 - Initializes a Git repository (optional)
 - Supports Git LFS (optional)
 
@@ -26,13 +26,15 @@ make setup
 ** Basic CLI Example
 
 #+begin_src bash
-python -m upmify.cmd \
+uv run upmify \
   /path/to/MyAsset.unitypackage \
   --output-dir ./WrappedPackages \
   --package-name com.author.assetname \
   --display-name "My Asset Display Name" \
   --assembly-name Author.AssetName
 #+end_src
+
+After =make setup=, =upmify= is installed in the project environment, so =uv run upmify= is the recommended entry point. The equivalent =python -m upmify.cmd= form also works when run inside the synced environment.
 
 ** Additional Options
 
@@ -42,8 +44,8 @@ python -m upmify.cmd \
 | =-p, --package-name=  | UPM package name, e.g., =com.company.assetname= (required)       |
 | =-d, --display-name=  | Human-readable display name shown in Unity (required)            |
 | =-a, --assembly-name= | C# assembly name for the generated =.asmdef= file (required)     |
-| =--package-version=   | Set the package version                                          |
-| =--unity-version=     | Minimum Unity version required                                   |
+| =--package-version=   | Set the package version (default: =1.0.0=)                       |
+| =--unity-version=     | Minimum Unity version required (default: =6000.0=)               |
 | =-g, --git-init=      | Initialize a Git repo in the package folder                      |
 | =--lfs=               | Enable Git LFS and add =.gitattributes= (requires =--git-init=)  |
 | =-f, --force=         | Overwrite existing output directory                              |
@@ -53,7 +55,7 @@ python -m upmify.cmd \
 * Example: Full Command
 
 #+begin_src bash
-python -m upmify.cmd \
+uv run upmify \
   "$HOME/.local/share/unity3d/Asset Store-5.x/Some Publisher/Tools/Cool Asset.unitypackage" \
   --output-dir ./WrappedPackages \
   --package-name com.author.coolasset \
@@ -76,8 +78,11 @@ WrappedPackages/
     │   ├── ...extracted asset files...
     │   └── Author.CoolAsset.asmdef
     ├── .git/
-    └── .gitignore
+    ├── .gitignore
+    └── .gitattributes
 #+end_example
+
+With =--git-init=, the package directory is initialized as a Git repository and the generated files are committed in an initial commit. The =.gitattributes= file is written only when =--lfs= is also passed, as in the example above.
 
 ** Adding to =manifest.json= in a Unity project:
 
