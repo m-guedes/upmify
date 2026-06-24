@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import importlib.resources as pkg_resources
 import json
 import logging
 import shutil
@@ -11,6 +10,7 @@ log = logging.getLogger(__name__)
 
 def rebuild_asset_structure(temp_dir: Path, runtime_dir: Path) -> dict[str, str]:
     dependencies = {}
+    runtime_root = runtime_dir.resolve()
 
     for sub in temp_dir.iterdir():
         pathname = sub / "pathname"
@@ -41,7 +41,13 @@ def rebuild_asset_structure(temp_dir: Path, runtime_dir: Path) -> dict[str, str]
                         log.warning("Invalid JSON in manifest.json asset")
             continue
 
-        dest_path = runtime_dir / relative
+        # The pathname is read from the untrusted .unitypackage. Resolve the destination
+        # and confine it to runtime_dir so a crafted entry cannot escape via '..' or an
+        # absolute path.
+        dest_path = (runtime_dir / relative).resolve()
+        if dest_path == runtime_root or not dest_path.is_relative_to(runtime_root):
+            log.warning("Skipping asset with unsafe path: %s", relative)
+            continue
         dest_path.parent.mkdir(parents=True, exist_ok=True)
 
         asset_file = sub / "asset"

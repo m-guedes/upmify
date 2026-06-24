@@ -1,22 +1,14 @@
 from __future__ import annotations
 
-import argparse
-import importlib.resources as pkg_resources
-import json
 import logging
-import re
 import shutil
-import stat
-import subprocess
-import tarfile
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Iterable
 
 from .extract import extract_unitypackage
-from .structure import rebuild_asset_structure
-from .package import write_package_json, write_asmdef
 from .git import init_git_repo
+from .package import write_asmdef, write_package_json
+from .structure import rebuild_asset_structure
 
 log = logging.getLogger(__name__)
 

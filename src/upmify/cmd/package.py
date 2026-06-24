@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import importlib.resources as pkg_resources
 import json
 import logging
 from pathlib import Path

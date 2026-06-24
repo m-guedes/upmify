@@ -11,9 +11,11 @@ log = logging.getLogger(__name__)
 
 def _copy_template_file(package: str, resource_name: str, dest: Path) -> None:
     try:
-        with pkg_resources.files(package).joinpath(resource_name).open("rb") as fsrc:
-            with dest.open("wb") as fdst:
-                shutil.copyfileobj(fsrc, fdst)
+        with (
+            pkg_resources.files(package).joinpath(resource_name).open("rb") as fsrc,
+            dest.open("wb") as fdst,
+        ):
+            shutil.copyfileobj(fsrc, fdst)
     except FileNotFoundError:
         log.warning("Template %s not found in package %s", resource_name, package)
 
