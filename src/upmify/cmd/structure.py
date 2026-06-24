@@ -24,10 +24,7 @@ def rebuild_asset_structure(temp_dir: Path, runtime_dir: Path) -> dict[str, str]
         # Split at the first newline or NUL and decode just that part
         relative = raw.split(b"\n", 1)[0].split(b"\x00", 1)[0].decode("utf-8", "ignore")
 
-        if (
-            # sub.name.lower() == "packagemanagermanifest" and
-            relative.replace("\\", "/").lower() == "packages/manifest.json"
-        ):
+        if relative.replace("\\", "/").lower() == "packages/manifest.json":
             asset_file = sub / "asset"
             if asset_file.is_file():
                 with asset_file.open("r", encoding="utf-8") as f:

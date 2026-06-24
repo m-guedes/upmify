@@ -57,7 +57,7 @@ def validate_assembly_name(name: str) -> str:
     return name
 
 
-def main():
+def main() -> None:
     p = argparse.ArgumentParser(
         description="Wrap a .unitypackage as a Unity UPM package",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -122,6 +122,9 @@ def main():
     )
 
     args = p.parse_args()
+
+    if args.lfs and not args.git_init:
+        p.error("--lfs requires --git-init")
 
     # Configure logging level
     if args.verbose:

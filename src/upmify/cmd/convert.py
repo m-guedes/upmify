@@ -23,10 +23,8 @@ def convert(
     use_lfs: bool = False,
     force: bool = False,
     package_version: str = "1.0.0",
-    unity_version: str = "2021.3",
+    unity_version: str = "6000.0",
 ) -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-
     pkg_dir = output_dir / package_name
 
     if pkg_dir.exists():

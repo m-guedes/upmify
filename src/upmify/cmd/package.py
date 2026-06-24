@@ -11,9 +11,9 @@ def write_package_json(
     pkg_dir: Path,
     name: str,
     display: str,
-    dependencies: dict[str, str] = None,
-    package_version="1.0.0",
-    unity_version="2021.3",
+    dependencies: dict[str, str] | None = None,
+    package_version: str = "1.0.0",
+    unity_version: str = "6000.0",
 ) -> None:
     pkg_def = {
         "name": name,
