@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "upmify"
 version = "0.1.0"
 description = "Convert Unity .unitypackage files into UPM-compatible packages"
-requires-python = ">=3.11"
+requires-python = ">=3.11.4"
 authors = [
     { name = "Miguel Guedes", email = "miguel@softgeist.com" }
 ]
