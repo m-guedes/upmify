@@ -15,10 +15,12 @@ It extracts asset contents, rebuilds the internal folder structure, adds assembl
 
 * Installation
 
+Use Just and uv to set up the checkout with Python 3.14.
+
 #+begin_src bash
 git clone https://github.com/midsbie/upmify.git
 cd upmify
-make setup
+just setup
 #+end_src
 
 * Usage
@@ -26,7 +28,7 @@ make setup
 ** Basic CLI Example
 
 #+begin_src bash
-uv run upmify \
+uv run --locked upmify \
   /path/to/MyAsset.unitypackage \
   --output-dir ./WrappedPackages \
   --package-name com.author.assetname \
@@ -34,7 +36,7 @@ uv run upmify \
   --assembly-name Author.AssetName
 #+end_src
 
-After =make setup=, =upmify= is installed in the project environment, so =uv run upmify= is the recommended entry point. The equivalent =python -m upmify.cmd= form also works when run inside the synced environment.
+After =just setup=, run =uv run --locked upmify= or =uv run --locked python -m upmify.cmd= from the checkout.
 
 ** Additional Options
 
@@ -55,7 +57,7 @@ After =make setup=, =upmify= is installed in the project environment, so =uv run
 * Example: Full Command
 
 #+begin_src bash
-uv run upmify \
+uv run --locked upmify \
   "$HOME/.local/share/unity3d/Asset Store-5.x/Some Publisher/Tools/Cool Asset.unitypackage" \
   --output-dir ./WrappedPackages \
   --package-name com.author.coolasset \
